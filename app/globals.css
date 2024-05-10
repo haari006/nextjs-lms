@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+/* @layer base {
   :root {
     --background: 200 20% 98%;
     --btn-background: 200 10% 91%;
@@ -24,10 +24,10 @@
   * {
     @apply border-foreground/20;
   }
-}
+} */
 
 .animate-in {
-  animation: animateIn 0.3s ease 0.15s both;
+  animation: animateIn 0.5s ease 0.2s both;
 }
 
 @keyframes animateIn {

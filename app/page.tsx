@@ -1,10 +1,10 @@
-import DeployButton from "../components/DeployButton";
 import AuthButton from "../components/AuthButton";
 import { createClient } from "@/utils/supabase/server";
 import ConnectSupabaseSteps from "@/components/tutorial/ConnectSupabaseSteps";
 import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
 import Header from "@/components/Header";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
@@ -24,7 +24,12 @@ export default async function Index() {
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <DeployButton />
+          <Image
+          src="/images/headtech.png"
+          width={100}
+          height={50}
+          alt="Supabase Logo"
+          />
           {isSupabaseConnected && <AuthButton />}
         </div>
       </nav>
@@ -41,12 +46,12 @@ export default async function Index() {
         <p>
           Powered by{" "}
           <Link
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
+            href="https://headtech1.demowebsg06.com/"
             target="_blank"
             className="font-bold hover:underline"
             rel="noreferrer"
           >
-            Supabase
+            Headtech
           </Link>
         </p>
       </footer>
