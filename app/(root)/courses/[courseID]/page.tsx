@@ -1,11 +1,5 @@
 import CourseViewPage from "@/components/courses/courseViewPage";
-import {
-  fetchContentBySubjectID,
-  fetchCourseByID,
-  fetchCourses,
-  fetchCourseWithSubjectsAndContents,
-  fetchSubjectByCourseID,
-} from "@/utils/supabase/action";
+import { fetchCourseByID } from "@/utils/supabase/action";
 
 export default async function Page({
   params,
@@ -13,7 +7,7 @@ export default async function Page({
   params: { courseID: string };
 }) {
   const { courseID } = params;
-  const course = await fetchCourseWithSubjectsAndContents(courseID);
+  const course = await fetchCourseByID(courseID);
   return (
     <div className="min-h-screen text-white">
       <div className="animate-in max-w-7xl mx-auto">

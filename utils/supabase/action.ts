@@ -35,62 +35,24 @@ export async function fetchCourses() {
   return data;
 }
 
-export async function fetchCourseByID(id: string) {
-  const { data, error } = await supabase.from("courses").select("*").eq("id", id);
+export async function fetchCourseByID(id: string): Promise<Course> {
+  const { data, error } = await supabase.from("courses").select("*").eq("id", id).single();
   if (error) {
-    throw error;
+    throw new Error(error.message);
   }
   return data;
 }
 
-export async function fetchSubjectByCourseID(id: string) {
-  const { data, error } = await supabase.from("subjects").select("*").eq("course_id", id);
-  if (error) {
-    throw error;
-  }
-  return data;
-}
-
-export async function fetchContentBySubjectID(id: string) {
-  const { data, error } = await supabase.from("contents").select("*").eq("subject_id", id);
-  if (error) {
-    throw error;
-  }
-  return data;
-}
-
-export async function fetchCourseWithSubjectsAndContents(courseId: string): Promise<Course | null> {
+export async function fetchSubjectByIndex(courseID: string, index: number): Promise<Course["subjects"][number]> {
   try {
-    // Fetch course data by ID
-    const courseData = await fetchCourseByID(courseId) as unknown as Course;
-    if (!courseData) {
-      return null; // Course not found
-    }
-
-    // Fetch subjects related to the course
-    const subjectsData = await fetchSubjectByCourseID(courseId);
-
-    // Fetch contents related to the subjects
-    const subjectIds = subjectsData.map((subject:any) => subject.id);
-    const contentsDataPromises = subjectIds.map((subjectId: string) => fetchContentBySubjectID(subjectId));
-    const contentsDataArrays = await Promise.all(contentsDataPromises);
-
-    // Flatten contents data array into a single array of Content objects
-    const contentsData = contentsDataArrays.flat();
-
-    // Construct the course object with subjects and contents
-    const course: Course = {
-      id: courseData.id,
-      title: courseData.title,
-      description: courseData.description,
-      image_url: courseData.image_url,
-      subjects: subjectsData,
-      contents: contentsData,
-    };
-
-    return course;
-  } catch (error) {
-    console.error('Error fetching course with subjects and contents:', error);
-    throw error;
+    // Fetch the course by its ID
+    const course = await fetchCourseByID(courseID);
+    
+    // Get the subject based on the index
+    const subject = course.subjects[index];
+    
+    return subject;
+  } catch (error:any) {
+    throw new Error('Failed to fetch subject: ' + error.message);
   }
 }
