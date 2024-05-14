@@ -24,20 +24,9 @@ import {
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { usePathname } from "next/navigation";
-import { User } from "@supabase/supabase-js";
-
-const navigation = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: Square2StackIcon,
-    current: true,
-  },
-  { name: "Courses", href: "/courses", icon: AcademicCapIcon, current: false },
-  { name: "Assignment", href: "/assignment", icon: DocumentTextIcon, current: false },
-  { name: "Live", href: "/live", icon: RssIcon, current: false },
-];
+import { usePathname, useRouter } from "next/navigation";
+import { Course } from "@/utils/supabase/types";
+import { BackButton } from "../Button/backButton";
 
 const userNavigation = [
   { name: "Your profile", href: "#" },
@@ -48,11 +37,18 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function AppBar({ children, user }: { children: React.ReactNode, user: User }) {
+export default function LearnAppBar({
+  children,
+  course,
+}: {
+  children: React.ReactNode;
+  course: Course;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const pathname = usePathname();
-  const current = navigation.find((item) => pathname.includes(item.href));
+  const current = course.subjects.find((item) => pathname.includes(item.title));
+  const navigate = useRouter();
 
   return (
     <>
@@ -113,44 +109,47 @@ export default function AppBar({ children, user }: { children: React.ReactNode, 
                       </button>
                     </div>
                   </TransitionChild>
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-200 px-6 pb-4">
+                  <div className="flex grow flex-col gap-y-5 bg-white px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
-                      <img
-                        className="h-8 w-auto"
-                        src="/images/headtech.png"
-                        alt="Your Company"
-                      />
+                      <BackButton link={"/dashboard"} />
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
                         <li>
                           <ul role="list" className="-mx-2 space-y-1">
-                            {navigation.map((item) => (
-                              <li key={item.name}>
+                            {course.subjects.map((item, index) => (
+                              <li key={index}>
                                 <a
-                                  href={item.href}
+                                  href={`/courses/${course.id}/${item.title}`}
                                   className={classNames(
-                                    current && pathname.includes(item.href)
+                                    current && pathname.includes(item.title)
                                       ? "bg-white shadow-md text-indigo-600"
-                                      : "text-gray-700 hover:text-indigo-600 hover:bg-white hover:shadow-md",
+                                      : "text-gray-700 hover:text-indigo-600",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                   )}
                                 >
-                                  <item.icon
-                                    className={classNames(
-                                      current && pathname.includes(item.href)
-                                        ? "text-indigo-600"
-                                        : "text-gray-400 group-hover:text-indigo-600",
-                                      "h-6 w-6 shrink-0"
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
+                                  {item.title}
                                 </a>
+                                {/* Render contents of the subject as a list */}
+                                <ul className="list-disc pl-4 pl-4">
+                                  {item.contents.map(
+                                    (content, contentIndex) => (
+                                      <li key={contentIndex}>
+                                        <a
+                                          href={`/learn/${course.id}?subjectIndex=${index}&contentIndex=${contentIndex}&title=${content.title}`}
+                                          className="text-gray-500 hover:text-indigo-600"
+                                        >
+                                          {content.title}
+                                        </a>
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
                               </li>
                             ))}
                           </ul>
                         </li>
+
                         <li className="mt-auto">
                           <a
                             href="#"
@@ -175,45 +174,45 @@ export default function AppBar({ children, user }: { children: React.ReactNode, 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 bg-gray-100 px-6 pb-4">
+          <div className="flex grow flex-col gap-y-5 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              {/* <img
-                className="h-8 w-auto p-1 rounded-md bg-gray-500"
-                src="/images/headtech.png"
-                alt="Your Company"
-              /> */}
-              LOGO
+              <BackButton link={"/dashboard"} />
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
-                      <li key={item.name}>
+                    {course.subjects.map((item, index) => (
+                      <li key={index}>
                         <a
-                          href={item.href}
+                          href={`/courses/${course.id}/${item.title}`}
                           className={classNames(
-                            current && pathname.includes(item.href)
+                            current && pathname.includes(item.title)
                               ? "bg-white shadow-md text-indigo-600"
-                              : "text-gray-700 hover:text-indigo-600 hover:bg-white hover:shadow-md",
+                              : "text-gray-700 hover:text-indigo-600",
                             "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                           )}
                         >
-                          <item.icon
-                            className={classNames(
-                              current && pathname.includes(item.href)
-                                ? "text-indigo-600"
-                                : "text-gray-400 group-hover:text-indigo-600",
-                              "h-6 w-6 shrink-0"
-                            )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
+                          {item.title}
                         </a>
+                        {/* Render contents of the subject as a list */}
+                        <ul className="list-disc pl-4 pl-4">
+                          {item.contents.map((content, contentIndex) => (
+                            <li key={contentIndex}>
+                              <a
+                                href={`/learn/${course.id}?subjectIndex=${index}&contentIndex=${contentIndex}&title=${content.title}`}
+                                className="text-gray-500 hover:text-indigo-600"
+                              >
+                                {content.title}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
                       </li>
                     ))}
                   </ul>
                 </li>
+
                 <li className="mt-auto">
                   <a
                     href="#"
@@ -259,7 +258,7 @@ export default function AppBar({ children, user }: { children: React.ReactNode, 
                         className="ml-4 pl-2 pr-2 rounded-md border border-gray-200 shadow-sm bg-blue-100 text-sm font-semibold leading-6 text-gray-900 hover:underline"
                         aria-hidden="true"
                       >
-                        {user.email}
+                        Tom Cook
                       </span>
                     </span>
                   </Menu.Button>

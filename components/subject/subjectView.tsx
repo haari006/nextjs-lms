@@ -1,6 +1,6 @@
 "use client";
 
-import Course from "@/utils/supabase/types";
+import {Course} from "@/utils/supabase/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

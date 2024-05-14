@@ -1,30 +1,50 @@
 "use client";
 
-import Course from "@/utils/supabase/types";
+import { enrollCourse } from "@/utils/supabase/action";
+import { Course } from "@/utils/supabase/types";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const CourseViewPage = ({ course }: { course: Course }) => {
-  const handleEnroll = () => {
-    console.log(`Enrolling in course: ${course.title}`);
+const CourseViewPage = ({
+  course,
+  isEnroll,
+}: {
+  course: Course;
+  isEnroll: boolean;
+}) => {
+  const handleEnroll = async () => {
+    try {
+      await enrollCourse(course);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="container mx-auto">
       {/* Course Title */}
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-4">
         <h1 className="text-3xl font-semibold text-gray-800 mb-4">
           {course.title}
         </h1>
 
         {/* Enroll Button (Top Right) */}
-        <button
-          onClick={handleEnroll}
-          className="bg-white text-green-500 font-semibold px-4 border-2 border-green-500 rounded-md shadow-md hover:scale-105 duration-300 ease-in-out transition-all ease-in-out"
-        >
-          Enroll
-        </button>
+        {isEnroll ? (
+          <button
+            disabled
+            className="bg-white text-green-500 font-semibold px-4 border-2 border-green-500 rounded-md shadow-md"
+          >
+            Enrolled
+          </button>
+        ) : (
+          <button
+            onClick={handleEnroll}
+            className="bg-white text-green-500 font-semibold px-4 border-2 border-green-500 rounded-md shadow-md hover:scale-105 duration-300 ease-in-out transition-all ease-in-out"
+          >
+            Enroll
+          </button>
+        )}
       </div>
 
       {/* Course Description */}
@@ -40,7 +60,9 @@ const CourseViewPage = ({ course }: { course: Course }) => {
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-2 mb-4"
             >
               <div className="relative">
-                <Link href={`${course.id}/subject?name=${subject.title}&id=${index}`}>
+                <Link
+                  href={`${course.id}/subject?name=${subject.title}&id=${index}`}
+                >
                   <Image
                     src={subject.imageUrl}
                     alt={subject.title}

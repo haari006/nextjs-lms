@@ -14,14 +14,42 @@ interface Subject {
   }
   
   // Define Course interface that includes subjects and contents
-  interface Course {
+  export interface Course {
     id: number;
+    tag: string;
     title: string;
     description: string;
     image_url: string;
     subjects: Subject[];
   }
-  
-  export default Course;
 
   
+  interface CourseContent {
+    id: number;
+    title: string;
+    finished: boolean;
+    quizMark: number | null;
+  }
+  
+  interface CourseSubject {
+    id: number;
+    name: string;
+    contents: CourseContent[];
+  }
+  
+  export interface CourseProgress {
+    subjects: CourseSubject[];
+    created_at: string;
+  }
+  
+  interface CourseEnrollment {
+    course_id: number;
+    progress: CourseProgress;
+  }
+  
+  export interface Enrollment {
+    id?: string;
+    user_id: string;
+    courses: CourseEnrollment[];
+    created_at?: string;
+  }

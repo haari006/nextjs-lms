@@ -13,6 +13,11 @@ const nextConfig = {
             hostname: "xsamluehlbsmrmjnymnf.supabase.co",
             port: "",
           },
+          {
+            protocol: "https",
+            hostname: "img.freepik.com",
+            port: "",
+          },
         ],
       },
 };

@@ -1,7 +1,10 @@
+import { Enrollment } from '@/utils/supabase/types';
 import { RectangleStackIcon, ClockIcon, ChartBarIcon, StarIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 
-export default function MiniCards() {
+export default function MiniCards({enrollment}:{enrollment:Enrollment}) {
+
+    const numberOfEnrollments = enrollment.courses.length;
     return (
       <div className="flex flex-wrap justify-between">
         {/* Row 1 */}
@@ -13,7 +16,7 @@ export default function MiniCards() {
             </div>
             <div>
               <h3 className="text-gray-800 font-semibold">Enrolled</h3>
-              <p className="text-gray-600">8</p>
+              <p className="text-gray-600">{numberOfEnrollments}</p>
             </div>
           </div>
           {/* Time Spent Card */}
@@ -23,7 +26,7 @@ export default function MiniCards() {
             </div>
             <div>
               <h3 className="text-gray-800 font-semibold">Time Spent</h3>
-              <p className="text-gray-600">25 hours</p>
+              <p className="text-gray-600">Less Than 1 hour</p>
             </div>
           </div>
           {/* Progress Card */}
@@ -33,7 +36,7 @@ export default function MiniCards() {
             </div>
             <div>
               <h3 className="text-gray-800 font-semibold">Progress</h3>
-              <p className="text-gray-600">65%</p>
+              <p className="text-gray-600">Not Available</p>
             </div>
           </div>
           {/* Rating Card */}
@@ -43,7 +46,7 @@ export default function MiniCards() {
             </div>
             <div>
               <h3 className="text-gray-800 font-semibold">Rating</h3>
-              <p className="text-gray-600">4.8/5</p>
+              <p className="text-gray-600">Calculating..</p>
             </div>
           </div>
         </div>
