@@ -40,8 +40,7 @@ const navigation = [
 ];
 
 const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Sign out", href: "/sign-out" },
 ];
 
 function classNames(...classes: string[]) {
@@ -177,12 +176,11 @@ export default function AppBar({ children, user }: { children: React.ReactNode, 
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 bg-gray-100 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              {/* <img
+              <img
                 className="h-8 w-auto p-1 rounded-md bg-gray-500"
                 src="/images/headtech.png"
                 alt="Your Company"
-              /> */}
-              LOGO
+              />
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">

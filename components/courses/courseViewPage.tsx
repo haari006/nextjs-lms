@@ -1,6 +1,6 @@
 "use client";
 
-import { enrollCourse } from "@/utils/supabase/action";
+import { enrollCourse, unenrollCourse } from "@/utils/supabase/action";
 import { Course } from "@/utils/supabase/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +21,14 @@ const CourseViewPage = ({
     }
   };
 
+  const handleUnenroll = async () => {
+    try {
+      await unenrollCourse(course);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="container mx-auto">
       {/* Course Title */}
@@ -32,10 +40,10 @@ const CourseViewPage = ({
         {/* Enroll Button (Top Right) */}
         {isEnroll ? (
           <button
-            disabled
-            className="bg-white text-green-500 font-semibold px-4 border-2 border-green-500 rounded-md shadow-md"
+            onClick={handleUnenroll}
+            className="bg-white text-red-500 font-semibold px-4 border-2 border-red-500 rounded-md shadow-md"
           >
-            Enrolled
+            Unenroll
           </button>
         ) : (
           <button

@@ -166,6 +166,51 @@ export async function enrollCourse(course: Course) {
   }
 }
 
+export async function unenrollCourse(course: Course) {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("User not logged in");
+  }
+
+  try {
+    // Check if the user is enrolled in the specified course
+    const { data: enrollmentData, error: enrollmentError } = await supabase
+      .from("enrollments")
+      .select("*")
+      .eq("user_id", user.id)
+      .single();
+
+    if (enrollmentError) {
+      throw enrollmentError;
+    }
+
+    if (!enrollmentData) {
+      console.log("User is not enrolled in any courses.");
+      return;
+    }
+
+    // Remove the specified course enrollment from the user's record
+    const updatedCourses = enrollmentData.courses.filter((enrolledCourse: any) => enrolledCourse.course_id !== course.id.toString());
+
+    const { error: updateError } = await supabase
+      .from("enrollments")
+      .update({ courses: updatedCourses })
+      .eq("user_id", user.id);
+
+    if (updateError) {
+      throw updateError;
+    }
+    revalidatePath("/courses");
+    console.log("Unenrolled successfully.");
+  } catch (error) {
+    console.error("Error unenrolling course:", error);
+  }
+}
+
 export async function isEnrolledInCourse(courseId: string): Promise<boolean> {
   const supabase = createClient();
   const {
