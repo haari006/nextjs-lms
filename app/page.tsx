@@ -29,7 +29,7 @@ export default async function Index() {
       <nav className="flex justify-center border-b border-gray-600 h-16 bg-gray-900 text-white">
         <div className="max-w-6xl w-full flex justify-between items-center p-3 text-sm">
           <Image
-            src="/images/headtech.png"
+            src="/images/RK.png"
             width={100}
             height={50}
             alt="Headtech Logo"
@@ -43,7 +43,7 @@ export default async function Index() {
           <div className="flex flex-col items-center bg-gray-900 text-white">
             <div className="flex gap-20 justify-center items-center">
               <Image
-                src="/images/headtech.png"
+                src="/images/RK.png"
                 width={100}
                 height={100}
                 alt="LMS Logo"
@@ -52,7 +52,6 @@ export default async function Index() {
             </div>
             <h1 className="sr-only">Learning Management System</h1>
             <p className="text-3xl lg:text-4xl leading-tight mx-auto max-w-xl text-center">
-              Headtech <br />{" "}
               <span className="font-bold">Learning Management System </span>{" "}
               <br />
               <span className="text-blue-400 text-sm leading-2">
@@ -86,7 +85,7 @@ export default async function Index() {
             className="font-bold hover:underline"
             rel="noreferrer"
           >
-            Headtech
+            RK Industries
           </Link>
         </p>
       </footer>

@@ -9,7 +9,7 @@ export default function Header({ user }: { user: User }) {
     <div className="flex flex-col items-center bg-gray-900 text-white">
       <div className="flex gap-20 justify-center items-center">
         <Image
-          src="/images/headtech.png"
+          src="/images/RK.png"
           width={100}
           height={100}
           alt="LMS Logo"
@@ -18,7 +18,6 @@ export default function Header({ user }: { user: User }) {
       </div>
       <h1 className="sr-only">Learning Management System</h1>
       <p className="text-3xl lg:text-4xl leading-tight mx-auto max-w-xl text-center">
-        Headtech <br />{" "}
         <span className="font-bold">Learning Management System </span> <br />
         <span className="text-blue-400 text-sm leading-2">
           Empowering education through technology.

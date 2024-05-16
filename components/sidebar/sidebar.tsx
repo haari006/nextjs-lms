@@ -116,7 +116,7 @@ export default function AppBar({ children, user }: { children: React.ReactNode, 
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="/images/headtech.png"
+                        src="/images/RK.png"
                         alt="Your Company"
                       />
                     </div>
@@ -177,8 +177,8 @@ export default function AppBar({ children, user }: { children: React.ReactNode, 
           <div className="flex grow flex-col gap-y-5 bg-gray-100 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
-                className="h-8 w-auto p-1 rounded-md bg-gray-500"
-                src="/images/headtech.png"
+                className="h-8 w-auto p-1 rounded-md bg-gray-900"
+                src="/images/RK.png"
                 alt="Your Company"
               />
             </div>
